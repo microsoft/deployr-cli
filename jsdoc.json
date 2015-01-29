@@ -1,0 +1,14 @@
+{
+  "source": {
+    "include": ["./package.json", "./di.js", "lib"],
+    "exclude": [ "./lib/completion.js" ],
+    "includePattern": ".+\\.js(doc)?$"
+  },
+  "opts": {
+    "recurse": true,
+    "destination": "../deployr-cli-doc/"
+  },
+  "plugins": [
+    "plugins/markdown"
+  ]
+}

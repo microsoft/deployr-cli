@@ -1,0 +1,63 @@
+{
+    "name": "deployr-cli",
+    "version": "1.0.0",
+    "description": "The DeployR command line interface, a tool for running useful DeployR utilities.",
+    "private": false,
+    "keywords": [
+        "cli",
+        "deployr",
+        "rbroker",
+        "R",
+        "rro",
+        "revolution",
+        "analytics",
+        "statistics"
+    ],
+    "author": "DeployR - Revolution Analytics Inc.",
+    "contributors": [
+        "Sean Wells"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/deployr/deployr-cli.git"
+    },
+    "homepage": "http://deployr.revolutionanalytics.com",
+    "dependencies": {
+        "chalk": "^0.5.1",
+        "char-spinner": "^1.0.1",
+        "complete": "0.3.1",
+        "cross-spawn": "^0.2.3",
+        "deployr": "^7.3.0",
+        "download": "^3.3.0",
+        "download-status": "^2.1.0",
+        "enum": "^0.2.6",
+        "flatiron": "0.3.8",
+        "flatiron-cli-config": "0.1.4",
+        "inquirer": "^0.8.0",
+        "lodash": "^2.4.1",
+        "opn": "^1.0.1",
+        "pkginfo": "0.3.0",
+        "request": "^2.40.0",
+        "require-analyzer": "0.5.0",
+        "shelljs": "^0.3.0"
+    },
+    "devDependencies": {
+        "jsdoc": "^3.3.0-alpha13",
+        "jshint": "^2.5.11"
+    },
+    "bin": {
+        "di": "bin/di"
+    },
+    "scripts": {
+        "doc": "node_modules/.bin/jsdoc -c jsdoc.json README.md",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },    
+    "main": "di.js",
+    "engines": {
+        "node": ">= 0.10.0"
+    },
+    "license": "Apache 2.0 License",
+    "bugs": {
+        "url": "https://github.com/deployr/deployr-cli/issues"
+    }
+}
