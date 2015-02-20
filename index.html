@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Home</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Home</h1>
+
+    
+
+
+
+    
+
+
+    <h3>deployr-cli 1.0.0</h3>
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+    <section>
+        <article><h1>deployr-cli</h1><blockquote>
+<p>The <a href="http://deployr.revolutionanalytics.com">DeployR</a> command line interface. </p>
+</blockquote>
+<p><img src="https://github.com/deployr/deployr-cli/raw/master/assets/di.png"/></p>
+<h2>Overview</h2><p>DeployR CLI is a <a href="http://en.wikipedia.org/wiki/Command-line_interface">Command Line Tool (CLI)</a> for running useful 
+<a href="http://deployr.revolutionanalytics.com">DeployR</a> utilities. Although the 
+current feature set is minimal, many more CLI commands will be added going 
+forward.</p>
+<h2>Prerequisites</h2><ul>
+<li>Install the latest stable version of <a href="http://nodejs.org/">Node.js</a> (version 0.10.x).</li>
+<li>A running <a href="http://deployr.revolutionanalytics.com/documents/admin/install">DeployR</a> server to connect to.</li>
+</ul>
+<h2>Installation</h2><p>The DeployR CLI is installed and managed via <a href="http://npmjs.org">npm</a>, the <a href="http://nodejs.org/">Node.js</a> package manager.</p>
+<p>To get started, you will want to install the DeployR command line interface (CLI) 
+globally. You may need to use sudo for (OSX, *nix, BSD, etc). If you are using 
+Windows, run your command shell as Administrator.</p>
+<p>One-line install using <a href="http://npmjs.org">npm</a>:</p>
+<pre class="prettyprint source"><code>npm install -g deployr-cli</code></pre><p>This will put the <code>di</code> command in your system path allowing it to be run from 
+any location.</p>
+<h2>Usage</h2><p>DeployR CLI is self documenting and the best way to become familiar with the tool is to 
+try it out from your command line:</p>
+<pre class="prettyprint source"><code>di &lt;resource> &lt;action> &lt;param1> &lt;param2> ...</code></pre><h3>Commands</h3><table>
+<thead>
+<tr>
+<th style="text-align:left">Command</th>
+<th style="text-align:left">Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"> <code>di</code></td>
+<td style="text-align:left">Displays the 'Main menu' User Interface.</td>
+</tr>
+<tr>
+<td style="text-align:left"> <code>di help</code></td>
+<td style="text-align:left">Prints out a list of available commands.</td>
+</tr>
+<tr>
+<td style="text-align:left"> <code>di help &lt;command&gt;</code></td>
+<td style="text-align:left">Prints out the <em>help</em> text associated with the command.</td>
+</tr>
+<tr>
+<td style="text-align:left"> <code>di endpoint</code></td>
+<td style="text-align:left">Set the DeployR server endpoint.</td>
+</tr>
+<tr>
+<td style="text-align:left"> <code>di login</code></td>
+<td style="text-align:left">Log into DeployR.</td>
+</tr>
+<tr>
+<td style="text-align:left"> <code>di logout</code></td>
+<td style="text-align:left">Log out of DeployR.</td>
+</tr>
+<tr>
+<td style="text-align:left"> <code>di whoami</code></td>
+<td style="text-align:left">Displays the current logged in user to DeployR.</td>
+</tr>
+<tr>
+<td style="text-align:left"> <code>di install example</code></td>
+<td style="text-align:left">Install a pre-built example.</td>
+</tr>
+<tr>
+<td style="text-align:left"> <code>di install example &lt;name&gt;</code></td>
+<td style="text-align:left">Install a pre-built example by example name.</td>
+</tr>
+<tr>
+<td style="text-align:left"> <code>di about</code></td>
+<td style="text-align:left">Displays DeployR server information based on the set server <code>endpoint</code>.</td>
+</tr>
+<tr>
+<td style="text-align:left"> <code>di config</code></td>
+<td style="text-align:left">Allow you to edit your local <code>di</code> <a href="#diconf-file">configuration</a> file.</td>
+</tr>
+<tr>
+<td style="text-align:left"> <code>di config list</code></td>
+<td style="text-align:left">Lists all configuration values currently set in the configuration file.</td>
+</tr>
+<tr>
+<td style="text-align:left"> <code>di config set    &lt;key&gt; &lt;value&gt;</code></td>
+<td style="text-align:left">Sets the specified <key> <value> pair in the <code>di</code> configuration.</td>
+</tr>
+<tr>
+<td style="text-align:left"> <code>di config get    &lt;key&gt;</code></td>
+<td style="text-align:left">Gets the value for the specified <key> in the <code>di</code> configuration.</td>
+</tr>
+<tr>
+<td style="text-align:left"> <code>di config delete &lt;key&gt;</code></td>
+<td style="text-align:left">Deletes the specified <key> in the <code>di</code> configuration.</td>
+</tr>
+</tbody>
+</table>
+<h2>Help</h2><p>All commands have corresponding <em>help</em> text associated with it. To read the help
+text for a <code>di</code> command, type:</p>
+<pre class="prettyprint source"><code>di help &lt;command></code></pre><p>For example, to display the help text for the <code>whoami</code> command:</p>
+<p><img src="https://github.com/deployr/deployr-cli/raw/master/assets/whoami.png"/></p>
+<h2>.diconf file</h2><p>All configuration data for your local DeployR CLI install is located in the <em>.diconf</em> 
+file in your home directory. Directly modifying this file is not advised. You 
+should be able to make all configuration changes from the <em>main menu</em> UI or via:</p>
+<pre class="prettyprint source"><code>di config</code></pre><p>Example:</p>
+<pre class="prettyprint source"><code>di config set endpoint http://dhost:port   # set the DeployR server endpoint</code></pre><p>If you need to have multiple configuration files, use --diconf options.</p>
+<p>Example:</p>
+<pre class="prettyprint source"><code>di --diconf /path/to/other/configuration/.diconf</code></pre><h2>Options</h2><pre class="prettyprint source"><code>di [commands] [options]
+
+--version             prints DeployR version and exit
+--diconf [file]       specify file to load configuration from
+--help                prints cli help and exit</code></pre><h2>API Documentation</h2><p>For advance usage, see our <a href="http://deployr.github.io/deployr-cli">API documentation</a></p>
+<h2>Notes</h2><p>Inspired by the <a href="https://www.nodejitsu.com">nodejitsu</a> CLI and others.</p>
+<h2>License</h2><p>Copyright (C) 2010-2015 by Revolution Analytics Inc.</p>
+<p>This program is licensed to you under the terms of Version 2.0 of the Apache 
+License. This program is distributed WITHOUT ANY EXPRESS OR IMPLIED WARRANTY, 
+INCLUDING THOSE OF NON-INFRINGEMENT, MERCHANTABILITY OR FITNESS FOR A PARTICULAR 
+PURPOSE. Please refer to the <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache License 2.0</a> for more details.</p></article>
+    </section>
+
+
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-deployr-cli.html">deployr-cli</a></li></ul><h3>Mixins</h3><ul><li><a href="commands_install.html">commands/install</a></li><li><a href="plugins_deployr-cli-server.html">plugins/deployr-cli-server</a></li><li><a href="plugins_deployr-cli-server_commands.html">plugins/deployr-cli-server/commands</a></li><li><a href="plugins_deployr-cli-users.html">plugins/deployr-cli-users</a></li><li><a href="plugins_deployr-cli-users_commands.html">plugins/deployr-cli-users/commands</a></li><li><a href="plugins_inquirer.html">plugins/inquirer</a></li><li><a href="util_brand.html">util/brand</a></li><li><a href="util_lang-type.html">util/lang-type</a></li><li><a href="util_spawn-command.html">util/spawn-command</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-beta1</a> on Fri Feb 20 2015 05:57:19 GMT-0800 (PST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
