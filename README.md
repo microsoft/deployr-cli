@@ -16,6 +16,15 @@ forward.
 - Install the latest stable version of [Node.js](http://nodejs.org/) (version 0.10.x).
 - A running [DeployR](http://deployr.revolutionanalytics.com/documents/admin/install) server to connect to.
 
+**Note** to Windows users that have the [Microsoft HPC Pack](https://msdn.microsoft.com/en-us/library/cc853440%28v=vs.85%29.aspx). 
+
+If your environment has the Microsoft HPC Pack, the `node.exe` from Node.js can
+conflict with the `node.exe` from the Microsoft HPC Pack (same name). You can 
+view the [open issue](https://github.com/joyent/node/issues/7773) here.
+
+The current solution is to manually reorder the paths in the `PATH` environment 
+variable giving Node.js's path a higher priority after installation.
+
 ## Installation
 
 The DeployR CLI is installed and managed via [npm](http://npmjs.org), the [Node.js](http://nodejs.org/) package manager.
@@ -107,6 +116,9 @@ di --diconf /path/to/other/configuration/.diconf
     --diconf [file]       specify file to load configuration from
     --help                prints cli help and exit
 
+## API Documentation
+
+For advance usage, see our [API documentation](http://deployr.github.io/deployr-cli)
 
 ## Notes
 
