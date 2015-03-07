@@ -23,7 +23,7 @@
     },
     "homepage": "http://deployr.revolutionanalytics.com",
     "dependencies": {
-        "chalk": "^0.5.1",
+        "chalk": "^1.0.0",
         "char-spinner": "^1.0.1",
         "complete": "0.3.1",
         "cross-spawn": "^0.2.3",
