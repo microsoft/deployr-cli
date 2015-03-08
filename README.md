@@ -122,7 +122,10 @@ di --diconf /path/to/other/configuration/.diconf
 
 - bash
 
-Anyother shell other than `bash` will simply ignore tab completions.
+Any other shell other than `bash` will simply ignore tab completions. The first
+time you run `$ di` from the command line it will add to your `.bashrc` or
+`.bash_profile` or .`profile` the necessary hooks. Upon sourcing these files, 
+the next time you run `$ di <TAB>` the completions with appear.
 
 Example:
 
