@@ -116,6 +116,26 @@ di --diconf /path/to/other/configuration/.diconf
     --diconf [file]       specify file to load configuration from
     --help                prints cli help and exit
 
+## Tab Completion
+
+**System Requirements**
+
+- bash
+
+Anyother shell other than `bash` will simply ignore tab completions.
+
+Example:
+
+```
+$ di lo<TAB>
+
+  login logout
+
+$ di w<TAB>
+  
+  whoami
+```
+
 ## API Documentation
 
 For advance usage, see our [API documentation](http://deployr.github.io/deployr-cli)
