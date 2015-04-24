@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: lib/util/spawn-command.js</title>
+    <title>JSDoc: Mixin: util/clear</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,43 +17,99 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: lib/util/spawn-command.js</h1>
+    <h1 class="page-title">Mixin: util/clear</h1>
 
     
 
 
 
+
+<section>
+
+<header>
     
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>/*!
- * Copyright (C) 2010-2015 by Revolution Analytics Inc.
- *
- * This program is licensed to you under the terms of Version 2.0 of the
- * Apache License. This program is distributed WITHOUT
- * ANY EXPRESS OR IMPLIED WARRANTY, INCLUDING THOSE OF NON-INFRINGEMENT,
- * MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE. Please refer to the
- * Apache License 2.0 (http://www.apache.org/licenses/LICENSE-2.0) for more 
- * details.
- */
+        <h2>
+        util/clear
+        </h2>
+        
+    
+</header>
 
-'use strict';
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p>Clears stdout and bring the cursor to postion 0,0.</p></div>
+        
 
-var _    = require('lodash'),
-   spawn = require('cross-spawn');
+        
 
-/**
- * Normalize a command across operating systems and spawn it.
- *
- * @mixin
- * @alias util/spawn-command
- */
-module.exports = function spawnCommand(command, args, opt) { 
-  return spawn(command, args, _.defaults({ stdio: 'inherit' }, opt || {}));
-};
-</code></pre>
-        </article>
-    </section>
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="lib_util_clear.js.html">lib/util/clear.js</a>, <a href="lib_util_clear.js.html#line20">line 20</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
 
 
 

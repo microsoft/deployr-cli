@@ -43,6 +43,7 @@ var path     = require('path'),
     fs       = require('fs'),
     deployr  = require('deployr'),
     request  = require('request'),
+    opn      = require('opn'),
     shell    = require('shelljs'),
     Download = require('download'),
     progress = require('download-status'),
@@ -58,7 +59,6 @@ var path     = require('path'),
     green    = di.chalk.green,
     yellow   = di.chalk.yellow,
     magenta  = di.chalk.magenta;
-
 
 /**
  * Commands for installing and deploying starter examples.
@@ -88,7 +88,9 @@ install.usage = [
  * @param {String} exName - The example to install.
  * @param {Function} callback - Continuation to pass control when complete.
  */
-install.example = function(exName, callback) {
+install.example = function(exName, callback) {    
+    var exConfig = {};
+
     //
     // Allows arbitrary amount of arguments
     //
@@ -191,7 +193,7 @@ install.example = function(exName, callback) {
                     )));
                 }
             }); 
-    };
+    }
 
     function installExample(example) {        
         var download = new Download({
@@ -233,6 +235,8 @@ install.example = function(exName, callback) {
             installer(function() {
                 fs.exists(path.resolve('di-config.json'), function(exists) {
                     if (exists) {
+                        agent();
+
                         deployr.io('/r/user/about')
                             .error(function() {
                                 var end = !conf.get('endpoint') ?
@@ -248,6 +252,7 @@ install.example = function(exName, callback) {
                             .end(function() { installation(); });
                     } else { 
                         // no `di-config` file given, just the launch example
+                        console.log('no di-config.json');
                         run();
                     }
                 });
@@ -255,35 +260,48 @@ install.example = function(exName, callback) {
         });
 
         function installation() {
-            var config  = require(path.resolve('di-config.json')),
-                repos   = config['app-install'].repository,
-                reqAuth = config['app-run'].requireAuthentication || false,
+            var config  = require(path.resolve('di-config.json')) || {},
+                repos   = (config['app-install'] || {}).repository || [],
                 dirs    = di._.uniq(repos, 'directory'),
                 last    = dirs.length,
-                success = 0;
+                success = 0;            
 
-            agent();
+            exConfig = {
+                example: example,
+                repos: repos,
+                auth: (config['app-run'] || {}).requireAuthentication || false,
+                tutorial: (config['app-run'] || {}).tutorial || {}
+            };
 
-            console.log(yellow('\nInstalling example analytics dependencies onto DeployR...\n'));
+            if (repos.length > 0) {
+                console.log(yellow('\nInstalling example analytics dependencies onto DeployR...\n'));
+                agent();
 
-            repos.forEach(function(item, index) {
-                console.log((index + 1) + '. ' + 
-                    ul(item.file.filename) + ' in directory ' + 
-                    ul(item.file.directory || 'root'));
-            });
-            console.log('');            
+                repos.forEach(function(item, index) {
+                    console.log((index + 1) + '. ' +
+                        ul(item.file.filename) + ' in directory ' +
+                        ul(item.file.directory || 'root'));
+                });
+                console.log('');
 
-            dirs.forEach(function(item) {
-                deployr.io('/r/repository/directory/create')
-                    .data({ directory: item.file.directory })
-                    .end(function() { success++; })
-                    .ensure(function() {
-                        if (success === last) { analytics(repos, reqAuth); }
-                    });
-            });
+                //
+                // create directories for the dependencies, when done start the
+                // upload/install of the analytic dependencies into DeployR
+                //
+                dirs.forEach(function(item) {
+                    deployr.io('/r/repository/directory/create')
+                        .data({ directory: item.file.directory })
+                        .end(function() { success++; })
+                        .ensure(function() {
+                            if (success === last) { analytics(repos); }
+                         });
+                });
+            } else { // othwise no dependencies just run the example            
+                candidateToRun();
+            }
         }
 
-        function analytics(repos, reqAuth) {
+        function analytics(repos) {
             var last    = repos.length,
                 success = 0,
                 retry   = [];
@@ -318,94 +336,221 @@ install.example = function(exName, callback) {
                     .ensure(function() {
                         if (success === last) {
                             console.log(green.bold('✓ installation complete.\n'));
-
-                            di.prompt.inquirer([{
-                                name: 'run',
-                                type: 'confirm',
-                                message: 'Would you like to run the example:'
-                            }], function(result) {
-                                if (result.run) {
-                                    if (reqAuth) {
-                                        console.log('\nThis example requires ' +
-                                            magenta(conf.get('username')) + 
-                                            '\'s password to run.\n');
-                                        
-                                        verifyPassword(run);
-                                    } else {
-                                        run();
-                                    }
-                                }
-                            });
+                            candidateToRun();
                         }
                     });
             }); // foreach
         }
 
-        function verifyPassword(cb) {
+    } // end installExample
+
+    function candidateToRun() {
+        di.prompt.inquirer([{
+            name: 'run',
+            type: 'confirm',
+            message: 'Would you like to run the example:'
+        }], function(result) {
+            if (result.run) {
+                if (exConfig.auth) {
+                    console.log('\nThis example requires ' +
+                        magenta(conf.get('username')) +
+                        '\'s password to run.\n');
+
+                    verifyPassword(targets);
+                } else {
+                    targets();
+                }
+            }
+        });
+    }
+
+    function verifyPassword(cb) {
+        di.prompt.inquirer([{
+            name: 'password',
+            type: 'password',
+            message: 'Password:',
+            validate: function(input) {
+                return input.length > 0 || 'Please enter a valid password.';
+            }
+        }], function(answer) {
+            // confirm password
             di.prompt.inquirer([{
                 name: 'password',
                 type: 'password',
-                message: 'Password:',
-                validate: function(input) {
-                    return input.length > 0 || 'Please enter a valid password.';
-                }   
-            }], function(answer) {
-                // confirm password
-                di.prompt.inquirer([{
-                    name: 'password',
-                    type: 'password',
-                    message: 'Verify Password:'
-                }], function(confirm) {
-                    if (answer.password === confirm.password) {
-                        cb(confirm.password);
-                    } else {
-                        console.log(red('>>') + ' Passwords do not match.\n');
-                        verifyPassword(cb);
+                message: 'Verify Password:'
+            }], function(confirm) {
+                if (answer.password === confirm.password) {
+                    cb(confirm.password);
+                } else {
+                    console.log(red('>>') + ' Passwords do not match.\n');
+                    verifyPassword(cb);
+                }
+            });
+        });
+    }
+
+    function targets(pw) {
+        var separator = di.prompt.separator;
+
+        di.clearScreen();
+
+        // tutorial type examples
+        if (exConfig.tutorial.topics) {
+            var choices = [separator()];
+
+            choices.push({
+                name: 'Example Documentation',
+                value: {
+                    help: exConfig.tutorial.help,
+                }
+            });
+
+            exConfig.tutorial.topics.forEach(function(obj) {
+                choices.push({
+                    name: obj.topic,
+                    value: {
+                        menu: obj.menu
                     }
                 });
             });
-        }   
 
-        function run(pw) {
-            var args    = [],
-                options = [],
-                cmd;
+            choices.push(separator());
 
-            console.log('\nLaunching example...\n');
+            choices.push({
+                name: 'Take me back home!',
+                value: 'home'
+            });
 
-            switch (LangType.parse(example)) {
-                case LangType.JS:
-                    cmd = 'npm';
-                    args = ['start'];
-                    process.env.endpoint = conf.get('endpoint');
-                    process.env.username = conf.get('username');
-                    if (pw) { process.env.password = pw; }
-                    options = { env: process.env };
-                    break;
-
-                case LangType.JAVA:
-                    cmd = (process.platform === 'win32' ? 'gradlew.bat' : './gradlew');
-                    args = [
-                        'run',
-                        '-Pendpoint=' + conf.get('endpoint') + '/deployr',
-                        '-Pusername=' + conf.get('username'),
-                        '-Ppassword=' + pw || ''
-                    ];
-                    break;
-
-                case LangType.DOTNET:
-                    break;
-            }
-
-            di.spawnCommand(cmd, args, options)
-                .on('error', function(err) { callback(err); });
+            di.prompt.inquirer([{
+                name: 'topic',
+                type: 'list',
+                message: 'Examples',
+                choices: choices
+            }], function(answer) {
+                if (answer.topic === 'home') {
+                    di.home();
+                } else if (answer.topic.help) {
+                    opn(answer.topic.help);
+                    targets(pw);
+                } else {
+                    tutorialChoice(answer.topic.menu, pw);
+                }
+            });
+        } else { // standalone example apps
+            run({
+                pw: pw
+            });
         }
-    };
+    }
+
+    function tutorialChoice(menu, pw) {
+        var separator = di.prompt.separator,
+            choices   = [separator()].concat(menu.map(function(obj) {
+                return {
+                    name: obj.item,
+                    value: {
+                        test: obj.args
+                    }
+                };
+            }));
+
+        di.prompt.inquirer([{
+            name: 'item',
+            type: 'list',
+            message: 'Examples to run?',
+            choices: choices.concat([
+                separator(), {
+                    name: 'Take me back',
+                    value: 'back'
+                }
+            ])
+        }], function(answer) {
+            if (answer.item === 'back') {
+                return targets(pw);
+            }
+            run({
+                pw: pw,
+                tutorial: {
+                    menu: menu,
+                    example: answer.item.test
+                }
+            });
+        });
+    }
+
+    function run(optArgs) {
+        var args    = [],
+            options = [],
+            sep     = dim(ul('                                                           ')),
+            cmd;
+
+        optArgs = optArgs || {};        
+
+        switch (LangType.parse(exConfig.example)) {
+            case LangType.JS:
+                cmd = 'npm';
+                args = ['start'];
+
+                process.env.endpoint = conf.get('endpoint');
+                process.env.username = conf.get('username');
+                process.env.password = optArgs.pw || '';
+                process.env.testmod  = (optArgs.tutorial || {}).example;
+                options = { env: process.env };
+
+                break;
+
+            case LangType.JAVA:
+                cmd = (process.platform === 'win32' ? 'gradlew.bat' : './gradlew');
+                args = [
+                    'run',
+                    '-Pendpoint=' + conf.get('endpoint') + '/deployr',
+                    '-Pusername=' + conf.get('username'),
+                    '-Ppassword=' + optArgs.pw || '',
+                    '-DtestClass=' + (optArgs.tutorial || {}).example
+                ];
+
+                break;
+
+            case LangType.DOTNET:
+                break;
+        }
+
+        di.clearScreen();
+        
+        console.log(sep);
+
+        di.spawnCommand(cmd, args, options)
+            .on('error', function(err) {
+                callback(err);
+            })
+            .on('close', function(err) {
+                console.log(sep + '\n');
+                di.prompt.inquirer([{
+                    name: 'post',
+                    type: 'list',
+                    message: 'What do you want to do?',
+                    choices: [{
+                        name: 'Take me back',
+                        value: 'back'
+                    }, {
+                        name: 'Run more examples',
+                        value: 'more'
+                    }]
+                }], function(answer) {
+                    di.clearScreen();
+
+                    if (answer.post === 'back') {
+                        tutorialChoice(optArgs.tutorial.menu, optArgs.pw);
+                    } else {
+                        targets(optArgs.pw);
+                    }
+                });
+            });
+    }
 
     //
     // Start to example installation workflow
     //
-    agent();
     listExamples();
 };
 
@@ -427,7 +572,7 @@ function agent() {
         cookies: ['JSESSIONID=' + conf.get('cookie')],
         sticky: true
     });
-} </code></pre>
+}</code></pre>
         </article>
     </section>
 
@@ -437,13 +582,13 @@ function agent() {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-deployr-cli.html">deployr-cli</a></li></ul><h3>Mixins</h3><ul><li><a href="commands_install.html">commands/install</a></li><li><a href="plugins_deployr-cli-server.html">plugins/deployr-cli-server</a></li><li><a href="plugins_deployr-cli-server_commands.html">plugins/deployr-cli-server/commands</a></li><li><a href="plugins_deployr-cli-users.html">plugins/deployr-cli-users</a></li><li><a href="plugins_deployr-cli-users_commands.html">plugins/deployr-cli-users/commands</a></li><li><a href="plugins_inquirer.html">plugins/inquirer</a></li><li><a href="util_brand.html">util/brand</a></li><li><a href="util_lang-type.html">util/lang-type</a></li><li><a href="util_spawn-command.html">util/spawn-command</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-deployr-cli.html">deployr-cli</a></li></ul><h3>Mixins</h3><ul><li><a href="commands_install.html">commands/install</a></li><li><a href="plugins_deployr-cli-server.html">plugins/deployr-cli-server</a></li><li><a href="plugins_deployr-cli-server_commands.html">plugins/deployr-cli-server/commands</a></li><li><a href="plugins_deployr-cli-users.html">plugins/deployr-cli-users</a></li><li><a href="plugins_deployr-cli-users_commands.html">plugins/deployr-cli-users/commands</a></li><li><a href="plugins_inquirer.html">plugins/inquirer</a></li><li><a href="util_brand.html">util/brand</a></li><li><a href="util_clear.html">util/clear</a></li><li><a href="util_lang-type.html">util/lang-type</a></li><li><a href="util_spawn-command.html">util/spawn-command</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-beta1</a> on Fri Feb 20 2015 05:57:19 GMT-0800 (PST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-beta3</a> on Fri Apr 24 2015 12:14:58 GMT-0700 (PDT)
 </footer>
 
 <script> prettyPrint(); </script>

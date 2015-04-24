@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: lib/util/spawn-command.js</title>
+    <title>JSDoc: Source: lib/util/clear.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: lib/util/spawn-command.js</h1>
+    <h1 class="page-title">Source: lib/util/clear.js</h1>
 
     
 
@@ -33,25 +33,21 @@
  * Apache License. This program is distributed WITHOUT
  * ANY EXPRESS OR IMPLIED WARRANTY, INCLUDING THOSE OF NON-INFRINGEMENT,
  * MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE. Please refer to the
- * Apache License 2.0 (http://www.apache.org/licenses/LICENSE-2.0) for more 
+ * Apache License 2.0 (http://www.apache.org/licenses/LICENSE-2.0) for more
  * details.
  */
 
 'use strict';
 
-var _    = require('lodash'),
-   spawn = require('cross-spawn');
-
 /**
- * Normalize a command across operating systems and spawn it.
+ * Clears stdout and bring the cursor to postion 0,0.
  *
  * @mixin
- * @alias util/spawn-command
+ * @alias util/clear
  */
-module.exports = function spawnCommand(command, args, opt) { 
-  return spawn(command, args, _.defaults({ stdio: 'inherit' }, opt || {}));
-};
-</code></pre>
+module.exports = function clearScreen() {	
+	process.stdout.write("\u001b[2J\u001b[0;0H");
+};</code></pre>
         </article>
     </section>
 
