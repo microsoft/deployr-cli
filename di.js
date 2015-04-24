@@ -20,7 +20,8 @@
 
 var path     = require('path'),
     opn      = require('opn'),
-    flatiron = require('flatiron');
+    flatiron = require('flatiron'),
+    clear    = require('./lib/util/clear');
 
 /** 
  * @alias module:deployr-cli 
@@ -327,6 +328,13 @@ di.settings = function() {
             di.home();
         });
     }.bind(di));
+};
+
+/**
+ * Clears stdout and bring the cursor to postion 0.
+ */
+di.clearScreen = function() {
+    clear();
 };
 
 /**
