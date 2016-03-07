@@ -1,6 +1,6 @@
 {
     "name": "deployr-cli",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "description": "The DeployR command line interface, a tool for running useful DeployR utilities.",
     "private": false,
     "keywords": [
@@ -9,27 +9,28 @@
         "rbroker",
         "R",
         "rro",
-        "revolution",
-        "analytics",
+        "mro",
+        "mrs",
+        "Microsoft",
         "statistics"
     ],
-    "author": "DeployR - Revolution Analytics Inc.",
+    "author": "DeployR - Microsoft Corporation",
     "contributors": [
         "Sean Wells"
     ],
     "repository": {
         "type": "git",
-        "url": "git://github.com/deployr/deployr-cli.git"
+        "url": "git://github.com/Microsoft/deployr-cli.git"
     },
-    "homepage": "http://deployr.revolutionanalytics.com",
+    "homepage": "http://go.microsoft.com/fwlink/?LinkID=692163",
     "dependencies": {
         "chalk": "^1.0.0",
         "char-spinner": "^1.0.1",
         "complete": "0.3.1",
         "cross-spawn": "^0.2.3",
         "deployr": "^7.3.0",
-        "download": "^3.3.0",
-        "download-status": "^2.1.0",
+        "download": "^4.4.3",
+        "download-status": "^2.2.1",
         "enum": "^0.2.6",
         "flatiron": "0.3.8",
         "flatiron-cli-config": "0.1.4",
@@ -58,6 +59,6 @@
     },
     "license": "Apache 2.0 License",
     "bugs": {
-        "url": "https://github.com/deployr/deployr-cli/issues"
+        "url": "https://github.com/Microsoft/deployr-cli/issues"
     }
 }
