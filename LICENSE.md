@@ -1,4 +1,4 @@
-Copyright (C) 2010-2015 by Revolution Analytics Inc.
+Copyright (C) 2010-2016, Microsoft Corporation
 
 This program is licensed to you under the terms of Version 2.0 of the Apache 
 License. This program is distributed WITHOUT ANY EXPRESS OR IMPLIED WARRANTY, 
