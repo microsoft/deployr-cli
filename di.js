@@ -342,8 +342,7 @@ di.clearScreen = function() {
  */
 di.exit = function() {
     if (di.displayExit) {
-        var url = 'https://github.com/deployr',
-            newLine = '\n';
+        var newLine = '\n';            
 
         console.log(
             di.brand +
@@ -351,7 +350,7 @@ di.exit = function() {
             'Good Bye!' +
             newLine +
             newLine +
-            'The DeployR Team' + di.chalk.dim.yellow(' ♥  ' + url)
+            'The DeployR Team' + di.chalk.dim.yellow(' ♥  ')
         );
     }
 };

@@ -1,20 +1,20 @@
 # deployr-cli
 
-> The [DeployR](http://deployr.revolutionanalytics.com) command line interface. 
+> The [DeployR](http://go.microsoft.com/fwlink/?LinkID=692163) command line interface. 
 
-<img src="https://github.com/deployr/deployr-cli/raw/master/assets/di.png"/>
+<img src="https://github.com/microsoft/deployr-cli/raw/master/assets/di.png"/>
 
 ## Overview
 
 DeployR CLI is a [Command Line Tool (CLI)](http://en.wikipedia.org/wiki/Command-line_interface) for running useful 
-[DeployR](http://deployr.revolutionanalytics.com) utilities. Although the 
+[DeployR](http://go.microsoft.com/fwlink/?LinkID=692163) utilities. Although the 
 current feature set is minimal, many more CLI commands will be added going 
 forward.
 
 ## Prerequisites
 
 - Install the latest stable version of [Node.js](http://nodejs.org/) (version 0.10.x).
-- A running [DeployR](http://deployr.revolutionanalytics.com/documents/admin/install) server to connect to.
+- A running [DeployR](https://msdn.microsoft.com/en-us/microsoft-r/deployr-installation) server to connect to.
 
 **Note** to Windows users that have the [Microsoft HPC Pack](https://msdn.microsoft.com/en-us/library/cc853440%28v=vs.85%29.aspx). 
 
@@ -82,7 +82,7 @@ di help <command>
 
 For example, to display the help text for the `whoami` command:
 
-<img src="https://github.com/deployr/deployr-cli/raw/master/assets/whoami.png"/>
+<img src="https://github.com/microsoft/deployr-cli/raw/master/assets/whoami.png"/>
 
 ## .diconf file
 
@@ -141,7 +141,7 @@ $ di w<TAB>
 
 ## API Documentation
 
-For advance usage, see our [API documentation](http://deployr.github.io/deployr-cli)
+For advance usage, see our [API documentation](http://microsoft.github.io/deployr-cli)
 
 ## Notes
 

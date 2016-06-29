@@ -1,6 +1,6 @@
 {
     "name": "deployr-cli",
-    "version": "1.1.1",
+    "version": "1.1.2",
     "description": "The DeployR command line interface, a tool for running useful DeployR utilities.",
     "private": false,
     "keywords": [
@@ -20,7 +20,7 @@
     ],
     "repository": {
         "type": "git",
-        "url": "git://github.com/Microsoft/deployr-cli.git"
+        "url": "git://github.com/microsoft/deployr-cli.git"
     },
     "homepage": "http://go.microsoft.com/fwlink/?LinkID=692163",
     "dependencies": {
@@ -28,7 +28,7 @@
         "char-spinner": "^1.0.1",
         "complete": "0.3.1",
         "cross-spawn": "^0.2.3",
-        "deployr": "^7.3.0",
+        "deployr": "^8.0.5",
         "download": "^4.4.3",
         "download-status": "^2.2.1",
         "enum": "^0.2.6",
@@ -57,8 +57,8 @@
     "engines": {
         "node": ">= 0.10.0"
     },
-    "license": "Apache 2.0 License",
+    "license": "Apache-2.0",
     "bugs": {
-        "url": "https://github.com/Microsoft/deployr-cli/issues"
+        "url": "https://github.com/microsoft/deployr-cli/issues"
     }
 }
